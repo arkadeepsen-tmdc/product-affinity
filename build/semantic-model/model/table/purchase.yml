@@ -1,0 +1,142 @@
+tables:
+  - name: purchase
+    sql: {{ load_sql('purchase') }}
+    description: "This table captures detailed purchase behavior of customers, including their transaction frequency, product category spends, and web interaction history. It serves as the foundation for customer segmentation, recency analysis, and churn prediction."
+    public: true
+    joins:
+      - name: product
+        relationship: many_to_one
+        sql: "{TABLE.p_customer_id} = {product.product_customer_id} "
+
+    dimensions:   
+      - name: p_customer_id
+        type: number
+        column: p_customer_id
+        description: "The unique identifier for a customer."
+        primary_key: true
+
+
+      - name: purchase_date
+        type: time
+        column: purchase_date
+        description: "The date when the customer made their last purchase."
+
+      - name: recency_in_days
+        type: number
+        column: recency_in_days
+        description: "The number of days since the customer’s last purchase."
+        
+
+      - name: mntwines
+        type: number
+        column: mntwines
+        description: "The total amount spent by the customer on wine products."
+        
+
+      - name: mntmeatproducts
+        type: number
+        column: mntmeatproducts
+        description: "The total amount spent by the customer on meat products."
+        
+
+      - name: mntfishproducts
+        type: number
+        column: mntfishproducts
+        description: "The total amount spent by the customer on fish products."
+        
+
+      - name: mntsweetproducts
+        type: number
+        column: mntsweetproducts
+        description: "The total amount spent by the customer on sweet products."
+        
+
+      - name: mntgoldprods
+        type: number
+        column: mntgoldprods
+        description: "The total amount spent by the customer on gold products."
+        
+
+      - name: mntfruits
+        type: number
+        column: mntfruits
+        description: "The total amount spent by the customer on fruit products."
+        
+
+      - name: numdealspurchases
+        type: number
+        column: numdealspurchases
+        description: "The number of purchases made by the customer using deals or discounts."
+        
+
+      - name: numwebpurchases
+        type: number
+        column: numwebpurchases
+        description: "The number of purchases made by the customer through the web."
+        
+
+      - name: numcatalogpurchases
+        type: number
+        column: numcatalogpurchases
+        description: "The number of purchases made by the customer through catalogs."
+        
+
+      - name: numstorepurchases
+        type: number
+        column: numstorepurchases
+        description: "The number of purchases made by the customer in physical stores."
+        
+
+      - name: numwebvisitsmonth
+        type: number
+        column: numwebvisitsmonth
+        description: "The number of times the customer visited the website in the last month."
+        
+
+      - name: purchases
+        type: number
+        column: purchases
+        
+
+      - name: spend
+        type: number
+        column: spend
+        
+
+      - name: country_name
+        type: string
+        sql: "{customer.country}"
+        description: "The name of the country where the customer is located."
+
+    measures:
+      - name: recency
+        sql: (current_date - purchase_date::date)
+        type: min 
+        description: Number of days since the customers last purchase.
+
+      - name: purchase_frequency
+        sql: purchases
+        type: sum 
+        description: The number of purchases made by the customer in a specific period.
+
+      - name: total_spend
+        sql: spend
+        type: sum 
+        description: The total amount a customer has spent across all purchases.
+
+      - name: average_spend
+        sql: sum(spend)/nullif(sum(purchases),0)
+        type: number 
+        description: The average amount spent per transaction by the customer.   
+
+      - name: churn_probability
+        sql: "CASE WHEN {recency} < 30 AND {total_spend} > 500 THEN 0.9 WHEN {recency} BETWEEN 30 AND 90 AND {total_spend} BETWEEN 100 AND 500 THEN 0.5  WHEN {recency} > 90 OR {total_spend} < 100 THEN 0.2 ELSE 0.1  END"
+        type: number
+        description: "The predicted likelihood that a customer will churn, based on purchase behavior and recency."
+
+      - name: cross_sell_opportunity_score
+        sql: >
+         sum((mntwines * 0.25 + mntmeatproducts * 0.2 + mntfishproducts * 0.15 + mntsweetproducts * 0.1 + mntgoldprods * 0.3 + mntfruits * 0.2))
+          /sum(numwebpurchases + numcatalogpurchases + numstorepurchases + 1)
+        description: "The potential for cross-selling a secondary product based on previous purchase patterns."
+        type: number

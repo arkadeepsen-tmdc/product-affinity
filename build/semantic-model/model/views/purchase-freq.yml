@@ -1,0 +1,31 @@
+views:
+  - name: purchase_frequency
+    description: This metric calculates the average number of times a product is purchased by customers within a given time period
+    public: true
+    meta:
+      title: Product Purchase Frequency
+      tags:   
+        - DPDomain.Marketing
+        - DPUsecase.Customer Segmentation
+        - DPUsecase.Product Recommendation
+        - DPTier.Consumer Aligned
+      metric:
+        expression: "*/45  * * * *"
+        timezone: "UTC"
+        window: "day"
+        excludes: 
+         - purchases
+    tables:
+      - join_path: purchase
+        prefix: true
+        includes:
+          - purchase_date
+          - customer_id
+          - purchase_frequency
+          - purchases
+
+      - join_path: product
+        prefix: true
+        includes:
+          - product_category
+          - product_name

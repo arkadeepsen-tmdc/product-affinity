@@ -1,0 +1,29 @@
+user_groups:
+  - name: usa
+    api_scopes:
+      - meta
+      - data
+      - graphql
+      - jobs
+      - source
+    includes: 
+      - users:id:arkadeepsen
+
+  - name: india
+    api_scopes:
+      - meta
+      - data
+      - graphql
+      - jobs
+      - source
+    includes: 
+      - users:id:arkadeepsen
+
+  - name: default
+    api_scopes:
+      - meta
+      - data
+      - graphql
+      - jobs
+      - source
+    includes: "*"

@@ -1,0 +1,24 @@
+version: v1
+name: postgresasen-scanner
+type: workflow
+tags:
+  - postgresasen-scanner
+description: The job scans schema tables and register metadata
+workflow:
+  dag:
+    - name: postgresasen-scanner
+      description: The job scans schema from demopreppostgres depot tables and register metadata to metis2
+      spec:
+        stack: scanner:2.0
+        compute: runnable-default
+        runAsUser: metis
+        stackSpec:
+          depot: dataos://depotasen21          # Postgres depot name or UDL
+          # sourceConfig:
+          #   config:
+          #     schemaFilterPattern:
+          #       includes:
+          #         - Public
+          #     tableFilterPattern:
+          #       includes:
+          #         - F_delivery

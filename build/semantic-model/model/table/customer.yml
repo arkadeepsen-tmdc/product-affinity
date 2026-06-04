@@ -1,0 +1,83 @@
+tables:
+  - name: customer
+    sql: {{ load_sql('customer') }}
+    description: "This table stores key details about the customers, including their personal information, income, and classification into different risk segments. It serves as the central reference point for customer-related insights."
+    public: true
+
+    joins:
+      - name: purchase
+        relationship: one_to_many
+        sql: "{TABLE.customer_id}= {purchase.p_customer_id}"
+        
+    dimensions:   
+      - name: customer_id
+        type: number
+        column: customer_id
+        description: "The unique identifier for each customer."
+        primary_key: true
+        public: true
+
+
+      - name: birth_year
+        type: number
+        column: birth_year
+        description: "The birth year of the customer, used for demographic analysis and customer segmentation."
+
+      - name: education
+        type: string
+        column: education
+        description: "The educational level of the customer, which could be used for profiling and targeted campaigns."
+
+      - name: marital_status
+        type: string
+        column: marital_status
+        description: "The marital status of the customer, which may provide insights into purchasing behavior and lifestyle preferences."
+
+      - name: income
+        type: number
+        column: income
+        description: "The annual income of the customer in the local currency, which is often a key factor in market segmentation and purchasing power analysis."
+
+      - name: country
+        type: string
+        column: country
+        description: "The country where the customer resides, providing geographic segmentation and analysis opportunities."
+
+      - name: customer_segments
+        type: string
+        sql: >
+          CASE 
+              WHEN random() < 0.33 THEN 'High Risk'
+              WHEN random() < 0.66 THEN 'Moderate Risk'
+              ELSE 'Low Risk'
+          END AS 
+        description: "Risk-based customer segments derived from the customer_id, used to categorize customers into high, moderate, and low risk groups for targeted campaigns or analysis."
+
+    measures:
+      - name: total_customers
+        sql: "COUNT( Distinct {customer_id})"
+        type: number
+        description: "The total number of customers in the dataset, used as a basic measure of customer volume."
+
+    segments:
+      - name: country_india
+        sql: country = 'India'
+        description: This segment filters customers by a specific country India.
+        meta:
+          secure:
+            user_groups:
+              includes:
+                - india
+              excludes: 
+                - default
+
+      - name: country_usa
+        sql: country = 'USA'
+        description: This segment filters customers by a specific country USA.
+        meta:
+          secure:
+            user_groups:
+              includes:
+                - usa
+              excludes: 
+                - default

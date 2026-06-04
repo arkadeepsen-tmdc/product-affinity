@@ -1,0 +1,53 @@
+tables:
+  - name: product
+    sql: {{ load_sql('product') }}
+    description: "This table stores the product information."
+    public: true
+    dimensions:   
+      - name: product_customer_id
+        type: string
+        column: product_customer_id
+        description: "The unique identifier representing the combination of a customer and a product."
+
+      - name: product_id
+        type: string
+        column: product_id
+        description: "The unique identifier for the product associated with a customer."
+        primary_key: true
+
+      - name: product_category
+        type: string
+        column: product_category
+        description: "The category of the product, such as Wines, Meats, Fish, etc."
+
+      - name: product_name
+        type: string
+        column: product_name
+        description: "The name of the product associated with the customer."
+
+      - name: price
+        type: number
+        column: price
+        description: "The price of the product assigned to the customer, in monetary units."
+
+      - name: product_affinity_score
+        sql: (50 + random() * 50) 
+        type: number
+        description: "customer who purchases one product category will also purchase another category. "
+
+      - name: purchase_channel
+        type: string
+        sql: >
+          CASE 
+              WHEN random() < 0.33 THEN 'Web'
+              WHEN random() < 0.66 THEN 'Store'
+              ELSE 'Catalog'
+          END
+        description: "Describes how the purchase was made (e.g., Web, Store, Catalog)."
+      
+    measures:
+      - name: total_products
+        sql: product_id
+        type: count_distinct
+        description: "The number of products."
+

@@ -1,0 +1,32 @@
+
+views:
+  - name: total_spending
+    description: This metric measures how many marketing campaigns a customer has engaged with. 
+    public: true
+    meta:
+      title: Customer Spending by Product Category
+      tags:   
+        - DPDomain.Marketing
+        - DPUsecase.Customer Segmentation
+        - DPUsecase.Product Recommendation
+        - DPTier.Consumer Aligned
+      metric:
+        expression: "*/45  * * * *"
+        timezone: "UTC"
+        window: "day"
+        excludes: 
+         - spend
+    tables:
+      - join_path: purchase
+        prefix: true
+        includes:
+          - purchase_date
+          - customer_id
+          - total_spend
+          - spend
+
+      - join_path: product
+        prefix: true
+        includes:
+          - product_category
+          - product_name

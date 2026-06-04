@@ -1,0 +1,24 @@
+name: depotasen21
+version: v2alpha
+type: depot
+layer: user
+depot:
+  type: jdbc                 
+  description: default postgres depot
+  external: true
+  secrets:
+    - name: postgresasen-rw
+      keys: 
+        - postgresasen-rw
+      allkeys: true
+
+    - name: postgresasen-r
+      keys: 
+        - postgresasen-r
+      allkeys: true
+    
+  jdbc:
+    database: modern-postgres
+    subprotocol: postgresql
+    host: "sys-db-dataos-ck-rjhk-dataos-stg.postgres.database.azure.com"
+    port: 5432
