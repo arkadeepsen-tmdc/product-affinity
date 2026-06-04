@@ -15,7 +15,7 @@ lens:
     name: postgres
   repo:
     url: https://github.com/arkadeepsen-tmdc/product-affinity
-    lensBaseDir: product-affinity-practice/build/semantic-model/model
+    lensBaseDir: product-affinity/build/semantic-model/model
     syncFlags:
       - --ref=main
 
