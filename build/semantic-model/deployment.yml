@@ -7,14 +7,14 @@ tags:
 description: This semantic model provides comprehensive insights for product affinity analysis.
 lens:
   compute: runnable-default
-  secrets:
-    - name: bitbucket-cred
-      allKeys: true
+  # secrets:
+  #   - name: bitbucket-cred
+  #     allKeys: true
   source:
     type: depot
     name: postgres
   repo:
-    url: https://bitbucket.org/tmdc/product-affinity-practice
+    url: https://github.com/arkadeepsen-tmdc/product-affinity
     lensBaseDir: product-affinity-practice/build/semantic-model/model
     syncFlags:
       - --ref=main
