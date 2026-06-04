@@ -7,12 +7,12 @@ tags:
 description: This semantic model provides comprehensive insights for product affinity analysis.
 lens:
   compute: runnable-default
-  # secrets:
-  #   - name: bitbucket-cred
-  #     allKeys: true
+  secrets:
+    - name: github-cred
+      allKeys: true
   source:
     type: depot
-    name: postgres
+    name: depottestasen
   repo:
     url: https://github.com/arkadeepsen-tmdc/product-affinity
     lensBaseDir: product-affinity/build/semantic-model/model
@@ -21,41 +21,32 @@ lens:
 
   api:   # optional
     replicas: 1 # optional
-    logLevel: Info  # optional
-    envs:
-      LENS2SQL_DB_QUERY_TIMEOUT: 600
-      LENS2SQL_AUTH_EXPIRE_SECS: 3600
+    logLevel: info  # optional
     resources: # optional
       requests:
         cpu: 100m
         memory: 256Mi
       limits:
-        cpu: 256m
-        memory: 256Mi
+        cpu: 500m
+        memory: 500Mi
   worker: # optional
     replicas: 1 # optional
-    logLevel: Info  # optional
-    envs:
-      LENS2SQL_DB_QUERY_TIMEOUT: 600
-      LENS2SQL_AUTH_EXPIRE_SECS: 3600
+    logLevel: debug  # optional
     resources: # optional
       requests:
         cpu: 100m
         memory: 256Mi
       limits:
-        cpu: 256m
-        memory: 256Mi
+        cpu: 500m
+        memory: 500Mi
   router: # optional
     logLevel: info  # optional
-    envs:
-      LENS2SQL_DB_QUERY_TIMEOUT: 600
-      LENS2SQL_AUTH_EXPIRE_SECS: 3600
     resources: # optional
       requests:
         cpu: 100m
         memory: 256Mi
       limits:
-        cpu: 256m
-        memory: 256Mi
+        cpu: 500m
+        memory: 500Mi
   metric:
     logLevel: info
