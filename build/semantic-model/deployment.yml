@@ -12,7 +12,7 @@ lens:
       allKeys: true
   source:
     type: depot
-    name: depottestasen
+    name: depotasen21
   repo:
     url: https://github.com/arkadeepsen-tmdc/product-affinity
     lensBaseDir: product-affinity/build/semantic-model/model
