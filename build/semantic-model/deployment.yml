@@ -1,5 +1,5 @@
 version: v1alpha
-name: "productaffinity"
+name: "productaffinity-asen"
 layer: user
 type: lens
 tags:
@@ -7,9 +7,9 @@ tags:
 description: This semantic model provides comprehensive insights for product affinity analysis.
 lens:
   compute: runnable-default
-  secrets:
-    - name: github-cred
-      allKeys: true
+  # secrets:
+  #   - name: github-cred
+  #     allKeys: true
   source:
     type: depot
     name: depotasen21
