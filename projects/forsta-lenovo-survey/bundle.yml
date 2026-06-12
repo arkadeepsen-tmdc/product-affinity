@@ -1,0 +1,12 @@
+version: v1beta
+name: forsta-lenovo-survey-bundle
+type: bundle
+layer: user
+description: Bundle for Forsta Survey Insights mock data lenovo data product.
+tags:
+  - dataproduct
+bundle:
+  resources:
+    - id: lens
+      file: /Users/arkadeepsen/Documents/work/product-affinity/projects/forsta-lenovo-survey/deployment.yml
+      workspace: productasen

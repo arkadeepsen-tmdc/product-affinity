@@ -1,0 +1,25 @@
+tables:
+  - name: forsta_hubs
+    sql: {{ load_sql('forsta_hubs') }}
+    description: Hub master data for Forsta survey programs.
+    public: true
+
+    dimensions:
+      - name: hub_id
+        type: string
+        column: hub_id
+        description: Unique identifier for the survey hub.
+        primary_key: true
+        public: true
+
+      - name: hub_name
+        type: string
+        column: hub_name
+        description: Display name of the survey hub.
+        public: true
+
+    measures:
+      - name: total_hubs
+        type: count_distinct
+        sql: "{TABLE.hub_id}"
+        description: Total number of distinct hubs.

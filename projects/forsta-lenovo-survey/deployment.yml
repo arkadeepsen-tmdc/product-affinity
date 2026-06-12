@@ -1,0 +1,51 @@
+version: v1alpha
+name: forsta-lenovo-survey
+layer: user
+type: lens
+tags:
+  - Tier.Gold
+  - Domain.Customer Relationship Management
+  - lens
+description: Analyze Forsta customer survey data from lenovo_mock_data.
+lens:
+  compute: runnable-default
+  source:
+    type: minerva
+    name: miniature
+    catalog: icebase
+  repo:
+    url: https://github.com/arkadeepsen-tmdc/product-affinity
+    lensBaseDir: projects/forsta-lenovo-survey/model
+    syncFlags:
+      - --ref=main
+  api:
+    replicas: 1
+    logLevel: info
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 500Mi
+  worker:
+    replicas: 1
+    logLevel: info
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 500Mi
+  router:
+    logLevel: info
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 500Mi
+  metric:
+    logLevel: info

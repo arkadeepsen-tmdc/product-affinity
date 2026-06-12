@@ -1,0 +1,76 @@
+version: v1
+name: wf-readparquet-ingestion-mock-data-lenovo
+type: workflow
+description: Ingests parquet files from Azure readparquet folder into the Lakehouse
+workflow:
+  title: Readparquet Ingestion Workflow
+  dag:
+    - name: readparquet-ingest-mock-data-lenovo
+      title: Readparquet-Ingestion-Dag
+      description: Loads hubs and survey parquet files from dropzone01 into icebase
+      spec:
+        stack: flare:7.0
+        compute: runnable-default
+        stackSpec:
+          sparkConf:
+            - "spark.sql.legacy.parquet.nanosAsLong": "true"
+          job:
+            explain: true
+            logLevel: INFO
+
+            inputs:
+              - name: hubs
+                dataset: dataos://dropzone01:mock_data/hubs.parquet
+                format: parquet
+
+              - name: survey_responses_selective_csv
+                dataset: dataos://dropzone01:mock_data/survey_responses_selective_csv.parquet
+                format: parquet
+
+              - name: survey_responses_selective
+                dataset: dataos://dropzone01:mock_data/survey_responses_selective.parquet
+                format: parquet
+
+              - name: survey_responses
+                dataset: dataos://dropzone01:mock_data/survey_responses.parquet
+                format: parquet
+
+              - name: surveys
+                dataset: dataos://dropzone01:mock_data/surveys.parquet
+                format: parquet
+
+            outputs:
+              - name: hubs
+                dataset: dataos://icebase:lenovo_mock_data/hubs_mock_data_lenovo?acl=rw
+                format: Iceberg
+                title: Hubs
+                options:
+                  saveMode: overwrite
+
+              - name: survey_responses_selective_csv
+                dataset: dataos://icebase:lenovo_mock_data/survey_responses_selective_csv_mock_data_lenovo?acl=rw
+                format: Iceberg
+                title: Survey Responses Selective CSV
+                options:
+                  saveMode: overwrite
+
+              - name: survey_responses_selective
+                dataset: dataos://icebase:lenovo_mock_data/survey_responses_selective_mock_data_lenovo?acl=rw
+                format: Iceberg
+                title: Survey Responses Selective
+                options:
+                  saveMode: overwrite
+
+              - name: survey_responses
+                dataset: dataos://icebase:lenovo_mock_data/survey_responses_mock_data_lenovo?acl=rw
+                format: Iceberg
+                title: Survey Responses
+                options:
+                  saveMode: overwrite
+
+              - name: surveys
+                dataset: dataos://icebase:lenovo_mock_data/surveys_mock_data_lenovo?acl=rw
+                format: Iceberg
+                title: Surveys
+                options:
+                  saveMode: overwrite

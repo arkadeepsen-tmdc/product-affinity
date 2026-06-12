@@ -1,0 +1,2 @@
+SELECT *
+FROM lenovo_mock_data.survey_responses_selective_mock_data_lenovo

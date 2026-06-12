@@ -1,0 +1,42 @@
+tables:
+  - name: forsta_survey_responses_selective
+    sql: {{ load_sql('forsta_survey_responses_selective') }}
+    description: Selective survey response records linked to parent surveys.
+    public: true
+
+    joins:
+      - name: forsta_surveys
+        relationship: many_to_one
+        sql: "{TABLE.survey_id} = {forsta_surveys.survey_id}"
+
+    dimensions:
+      - name: response_id
+        type: string
+        column: response_id
+        description: Unique identifier for the survey response.
+        primary_key: true
+        public: true
+
+      - name: survey_id
+        type: string
+        column: survey_id
+        description: Parent survey identifier.
+        public: true
+
+      - name: question_id
+        type: string
+        column: question_id
+        description: Question identifier within the survey.
+        public: true
+
+      - name: response_value
+        type: string
+        column: response_value
+        description: Response value submitted for the question.
+        public: true
+
+    measures:
+      - name: total_responses
+        type: count_distinct
+        sql: "{TABLE.response_id}"
+        description: Total number of distinct survey responses.

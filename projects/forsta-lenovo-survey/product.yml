@@ -1,0 +1,36 @@
+version: v1beta
+name: forsta-lenovo-survey-dp
+type: data
+description: Analyze data associated with Forsta customer survey data from lenovo_mock_data.
+purpose: Provides information associated with Forsta customer survey data.
+tags:
+  - DPUsecase.Forsta Survey metrics
+  - DPTier.Consumer Aligned
+  - DPDomain.Customer Relationship Management
+  - UseCase.Survey Analytics
+  - Domain.Survey
+  - Domain.Customer Experience
+  - UseCase.Customer Feedback Analysis
+v1beta:
+  data:
+    meta:
+      title: Forsta Survey Insights Mock Data Lenovo
+    collaborators:
+      - name: arkadeepsen
+        description: owner
+    resource:
+      type: bundle
+      version: v1beta
+      refType: dataos
+      ref: bundle:v1beta:forsta-lenovo-survey-bundle:productasen
+    inputs:
+      - refType: dataos
+        ref: dataos://icebase:lenovo_mock_data/hubs_mock_data_lenovo
+      - refType: dataos
+        ref: dataos://icebase:lenovo_mock_data/surveys_mock_data_lenovo
+      - refType: dataos
+        ref: dataos://icebase:lenovo_mock_data/survey_responses_selective_mock_data_lenovo
+    ports:
+      lens:
+        refType: dataos
+        ref: lens:v1alpha:forsta-lenovo-survey:productasen

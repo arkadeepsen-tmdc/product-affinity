@@ -1,0 +1,28 @@
+version: v1
+name: icebase-lenovo-mock-data-scanner
+type: workflow
+tags:
+  - icebase-lenovo-mock-data-scanner
+description: The job scans schema tables and register metadata
+workflow:
+  dag:
+    - name: icebase-lenovo-mock-data-scanner
+      description: The job scans schema from icebase lenovo_mock_data tables and register metadata to metis2
+      spec:
+        stack: scanner:2.0
+        compute: runnable-default
+        runAsUser: metis
+        stackSpec:
+          depot: dataos://icebase:lenovo_mock_data
+          sourceConfig:
+            config:
+              schemaFilterPattern:
+                includes:
+                  - lenovo_mock_data
+              tableFilterPattern:
+                includes:
+                  - hubs_mock_data_lenovo
+                  - survey_responses_selective_csv_mock_data_lenovo
+                  - survey_responses_selective_mock_data_lenovo
+                  - survey_responses_mock_data_lenovo
+                  - surveys_mock_data_lenovo

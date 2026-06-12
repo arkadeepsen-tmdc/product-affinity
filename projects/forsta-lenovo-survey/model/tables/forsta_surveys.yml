@@ -1,0 +1,42 @@
+tables:
+  - name: forsta_surveys
+    sql: {{ load_sql('forsta_surveys') }}
+    description: Survey definitions and metadata from Forsta.
+    public: true
+
+    joins:
+      - name: forsta_hubs
+        relationship: many_to_one
+        sql: "{TABLE.hub_id} = {forsta_hubs.hub_id}"
+
+    dimensions:
+      - name: survey_id
+        type: string
+        column: survey_id
+        description: Unique identifier for the survey.
+        primary_key: true
+        public: true
+
+      - name: survey_name
+        type: string
+        column: survey_name
+        description: Name or title of the survey.
+        public: true
+
+      - name: hub_id
+        type: string
+        column: hub_id
+        description: Hub that owns this survey.
+        public: true
+
+      - name: survey_status
+        type: string
+        column: survey_status
+        description: Current status of the survey.
+        public: true
+
+    measures:
+      - name: total_surveys
+        type: count_distinct
+        sql: "{TABLE.survey_id}"
+        description: Total number of distinct surveys.
