@@ -15,7 +15,7 @@ lens:
     catalog: icebase
   repo:
     url: https://github.com/arkadeepsen-tmdc/product-affinity
-    lensBaseDir: projects/forsta-lenovo-survey/model
+    lensBaseDir: product-affinity/projects/forsta-lenovo-survey/model
     syncFlags:
       - --ref=main
   api:
